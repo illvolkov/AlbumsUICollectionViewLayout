@@ -13,6 +13,7 @@
 		04C1506D27EA12D9001377A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04C1506C27EA12D9001377A5 /* Assets.xcassets */; };
 		04C1507027EA12D9001377A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04C1506E27EA12D9001377A5 /* LaunchScreen.storyboard */; };
 		04C1507827EB9824001377A5 /* AlbumsCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1507727EB9824001377A5 /* AlbumsCollectionViewModel.swift */; };
+		04C1507C27EBAD7A001377A5 /* AlbumsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C1507B27EBAD79001377A5 /* AlbumsCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		04C1506F27EA12D9001377A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04C1507127EA12D9001377A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04C1507727EB9824001377A5 /* AlbumsCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsCollectionViewModel.swift; sourceTree = "<group>"; };
+		04C1507B27EBAD79001377A5 /* AlbumsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				04C1506327EA12D5001377A5 /* AppDelegate.swift */,
 				04C1506727EA12D5001377A5 /* ViewController.swift */,
 				04C1507727EB9824001377A5 /* AlbumsCollectionViewModel.swift */,
+				04C1507B27EBAD79001377A5 /* AlbumsCollectionViewCell.swift */,
 				04C1506927EA12D5001377A5 /* Main.storyboard */,
 				04C1506C27EA12D9001377A5 /* Assets.xcassets */,
 				04C1506E27EA12D9001377A5 /* LaunchScreen.storyboard */,
@@ -141,6 +144,7 @@
 				04C1506827EA12D5001377A5 /* ViewController.swift in Sources */,
 				04C1506427EA12D5001377A5 /* AppDelegate.swift in Sources */,
 				04C1507827EB9824001377A5 /* AlbumsCollectionViewModel.swift in Sources */,
+				04C1507C27EBAD7A001377A5 /* AlbumsCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

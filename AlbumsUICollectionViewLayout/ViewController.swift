@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "item")
+        collectionView.register(AlbumsCollectionViewCell.self, forCellWithReuseIdentifier: AlbumsCollectionViewCell.identifier)
         
         return collectionView
     }()
@@ -60,7 +60,7 @@ class ViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
         
-    var models = [Section]()
+    var models = AlbumModel.configure()
 }
 
 extension ViewController: UICollectionViewDataSource {
@@ -74,7 +74,16 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        let model = models[indexPath.section].options[indexPath.row]
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: AlbumsCollectionViewCell.identifier,
+            for: indexPath) as? AlbumsCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        if model.isListItem {
+            cell.accessories = [.disclosureIndicator()]
+        }
+        cell.configure(with: model)
         return cell
     }
 }
