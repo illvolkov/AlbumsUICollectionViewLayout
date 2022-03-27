@@ -14,6 +14,8 @@ final class AlbumsCollectionViewCell: UICollectionViewListCell {
         
     private lazy var albumImage: UIImageView = {
         let image = UIImageView()
+        image.layer.cornerRadius = contentView.frame.width * 0.03
+        image.layer.masksToBounds = true
         return image
     }()
     
@@ -33,7 +35,7 @@ final class AlbumsCollectionViewCell: UICollectionViewListCell {
         let label = UILabel()
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .left
-        label.alpha = 0.8
+        label.alpha = 0.7
         return label
     }()
     
@@ -112,18 +114,22 @@ final class AlbumsCollectionViewCell: UICollectionViewListCell {
                 albumImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
                 
                 albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
-                albumNameLabel.topAnchor.constraint(equalTo: albumImage.bottomAnchor).isActive = true
+                albumNameLabel.topAnchor.constraint(equalTo: albumImage.bottomAnchor, constant: 6).isActive = true
                 albumNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+                albumNameLabel.heightAnchor.constraint(equalTo: albumNameLabel.widthAnchor, multiplier: 0.11).isActive = true
                 
                 numberOfPhotoLabel.translatesAutoresizingMaskIntoConstraints = false
-                numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor).isActive = true
+                numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: 3).isActive = true
                 numberOfPhotoLabel.widthAnchor.constraint(equalTo: albumNameLabel.widthAnchor).isActive = true
+                numberOfPhotoLabel.heightAnchor.constraint(equalTo: albumNameLabel.heightAnchor).isActive = true
                 if model.isHeartIcon {
                     contentView.addSubview(heartIcon)
                     
                     heartIcon.translatesAutoresizingMaskIntoConstraints = false
-                    heartIcon.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
-                    heartIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
+                    heartIcon.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
+                    heartIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
+                    heartIcon.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.13).isActive = true
+                    heartIcon.heightAnchor.constraint(equalTo: heartIcon.widthAnchor).isActive = true
                 }
             }
         }

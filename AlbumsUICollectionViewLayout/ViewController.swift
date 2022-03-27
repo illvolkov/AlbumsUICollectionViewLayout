@@ -7,15 +7,19 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         collectionView.register(AlbumsCollectionViewCell.self, forCellWithReuseIdentifier: AlbumsCollectionViewCell.identifier)
+        collectionView.register(SectionHeader.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: SectionHeader.identifier)
         
         return collectionView
     }()
@@ -23,7 +27,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupHierarchy()
-        setupLayout()
         setupView()
     }
     
@@ -34,14 +37,6 @@ class ViewController: UIViewController {
     
     private func setupHierarchy() {
         view.addSubview(collectionView)
-    }
-    
-    private func setupLayout() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        collectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
-        collectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     
     private func setupView() {
@@ -61,6 +56,43 @@ class ViewController: UIViewController {
     }
         
     var models = AlbumModel.configure()
+    
+    private func createCompositionalLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
+            let section = self.models[sectionIndex]
+            switch section.type {
+            default:
+                return self.createMyAlbumsSection()
+            }
+        }
+        return layout
+    }
+    
+    private func createMyAlbumsSection() -> NSCollectionLayoutSection {
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(45))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                                 elementKind: UICollectionView.elementKindSectionHeader,
+                                                                 alignment: .top)
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 5, bottom: 65, trailing: 5)
+        
+        let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize, subitems: [item])
+        
+        let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .estimated(view.frame.size.width / 2.15),
+                                                         heightDimension: .estimated(view.frame.size.width / 0.85))
+        let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize, subitems: [verticalGroup])
+        
+        let section = NSCollectionLayoutSection(group: horizontalGroup)
+        section.orthogonalScrollingBehavior = .groupPaging
+        section.boundarySupplementaryItems = [header]
+        section.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 13, bottom: 0, trailing: 13)
+        
+        return section
+    }
 }
 
 extension ViewController: UICollectionViewDataSource {
@@ -85,6 +117,21 @@ extension ViewController: UICollectionViewDataSource {
         }
         cell.configure(with: model)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let model = models[indexPath.section]
+        switch model.type {
+        default:
+            guard let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: SectionHeader.identifier,
+                for: indexPath) as? SectionHeader else {
+                return UICollectionReusableView()
+            }
+            header.configreHeader(with: model)
+            return header
+        }
     }
 }
 
