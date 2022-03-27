@@ -31,8 +31,18 @@ final class SectionHeader: UICollectionViewCell {
         return button
     }()
     
+    private lazy var separatorView: UIView = {
+        let view = UIView()
+        
+        view.backgroundColor = .black
+        view.alpha = 0.4
+        
+        return view
+    }()
+    
     func configreHeader(with sectionType: Section) {
         addSubview(titleSection)
+        contentView.addSubview(separatorView)
         backgroundColor = .white
         titleSection.text = sectionType.type
         if sectionType.type == "Мои альбомы" {
@@ -45,6 +55,12 @@ final class SectionHeader: UICollectionViewCell {
         titleSection.translatesAutoresizingMaskIntoConstraints = false
         titleSection.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
         titleSection.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
+        
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        separatorView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 6).isActive = true
+        separatorView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        separatorView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.001).isActive = true
                 
         seeAllButton.frame = CGRect(x: contentView.frame.width * 0.89,
                                     y: contentView.frame.height * 0.15,

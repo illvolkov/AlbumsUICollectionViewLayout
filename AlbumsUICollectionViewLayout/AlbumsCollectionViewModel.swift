@@ -82,23 +82,23 @@ final class AlbumModel {
                       isPeopleItem: false,
                       isListItem: false,
                       isHeartIcon: false),
+        ]),
+
+        Section(type: "Люди и места", options: [
+
+            AlbumItem(photo: nil,
+                      albumName: "Люди",
+                      numberOfPhoto: "9",
+                      isPeopleItem: true,
+                      isListItem: false,
+                      isHeartIcon: false),
+            AlbumItem(photo: UIImage(named: "places"),
+                      albumName: "Места",
+                      numberOfPhoto: "5",
+                      isPeopleItem: false,
+                      isListItem: false,
+                      isHeartIcon: false),
         ])
-//
-//        Section(type: "people and places", options: [
-//
-//            AlbumItem(photo: nil,
-//                      albumName: "Люди",
-//                      numberOfPhoto: "9",
-//                      isPeopleItem: true,
-//                      isListItem: false,
-//                      isHeartIcon: false),
-//            AlbumItem(photo: UIImage(named: "places"),
-//                      albumName: "Места",
-//                      numberOfPhoto: "5",
-//                      isPeopleItem: false,
-//                      isListItem: false,
-//                      isHeartIcon: false),
-//        ]),
 //
 //        Section(type: "media file types and other", options: [
 //

@@ -47,9 +47,14 @@ final class ViewController: UIViewController {
         navigationItem.title = "Альбомы"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"))
+        navigationController?.navigationBar.layoutMargins = .init(top: 0,
+                                                                  left: 20,
+                                                                  bottom: 0,
+                                                                  right: 0)
         
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .white
+        appearance.shadowColor = .clear
         
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -61,6 +66,8 @@ final class ViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
             let section = self.models[sectionIndex]
             switch section.type {
+            case "Люди и места":
+                return self.createPeopleAndPlacesSection()
             default:
                 return self.createMyAlbumsSection()
             }
@@ -83,7 +90,7 @@ final class ViewController: UIViewController {
         let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize, subitems: [item])
         
         let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .estimated(view.frame.size.width / 2.15),
-                                                         heightDimension: .estimated(view.frame.size.width / 0.85))
+                                                         heightDimension: .estimated(view.frame.size.width / 0.825))
         let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize, subitems: [verticalGroup])
         
         let section = NSCollectionLayoutSection(group: horizontalGroup)
@@ -91,6 +98,29 @@ final class ViewController: UIViewController {
         section.boundarySupplementaryItems = [header]
         section.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 13, bottom: 0, trailing: 13)
         
+        return section
+    }
+    
+    private func createPeopleAndPlacesSection() -> NSCollectionLayoutSection {
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(45))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                                 elementKind: UICollectionView.elementKindSectionHeader,
+                                                                 alignment: .top)
+        header.contentInsets = NSDirectionalEdgeInsets(top: 54, leading: 0, bottom: 0, trailing: 0)
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(view.frame.size.width * 0.93),
+                                               heightDimension: .estimated(view.frame.size.width * 0.44))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
+        section.contentInsets = NSDirectionalEdgeInsets(top: 54, leading: 13, bottom: 0, trailing: 13)
+        section.boundarySupplementaryItems = [header]
         return section
     }
 }

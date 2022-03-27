@@ -14,42 +14,51 @@ final class AlbumsCollectionViewCell: UICollectionViewListCell {
         
     private lazy var albumImage: UIImageView = {
         let image = UIImageView()
+        
         image.layer.cornerRadius = contentView.frame.width * 0.03
         image.layer.masksToBounds = true
+        
         return image
     }()
     
-    private lazy var peopleImageOne = createPeopleImage(with: UIImage(named: "people.image.one"))
-    private lazy var peopleImageTwo = createPeopleImage(with: UIImage(named: "people.image.two"))
-    private lazy var peopleImageThree = createPeopleImage(with: UIImage(named: "people.image.three"))
-    private lazy var peopleImageFour = createPeopleImage(with: UIImage(named: "people.image.four"))
+    private lazy var peopleImageOne = createPeopleImage(with: UIImage(named: "people.photo.one"))
+    private lazy var peopleImageTwo = createPeopleImage(with: UIImage(named: "people.photo.two"))
+    private lazy var peopleImageThree = createPeopleImage(with: UIImage(named: "people.photo.three"))
+    private lazy var peopleImageFour = createPeopleImage(with: UIImage(named: "people.photo.four"))
     
     private lazy var albumNameLabel: UILabel = {
         let label = UILabel()
+        
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .left
         return label
+        
     }()
     
     private lazy var numberOfPhotoLabel: UILabel = {
         let label = UILabel()
+        
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .left
         label.alpha = 0.7
+        
         return label
     }()
     
     private lazy var heartIcon: UIImageView = {
         let icon = UIImageView()
+        
         icon.image = UIImage(systemName: "heart.fill")
         icon.tintColor = .white
+        
         return icon
     }()
     
     private func createPeopleImage(with peopleImage: UIImage?) -> UIImageView {
         let imageView = UIImageView()
         
-        imageView.layer.cornerRadius = 12
+        imageView.layer.cornerRadius = contentView.frame.width * 0.25
+        imageView.layer.masksToBounds = true
         imageView.image = peopleImage
         
         return imageView
@@ -70,24 +79,34 @@ final class AlbumsCollectionViewCell: UICollectionViewListCell {
             peopleImageFour.translatesAutoresizingMaskIntoConstraints = false
             
             peopleImageOne.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-            peopleImageTwo.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+            peopleImageOne.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+            peopleImageOne.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.49).isActive = true
+            peopleImageOne.heightAnchor.constraint(equalTo: peopleImageOne.widthAnchor).isActive = true
             
             peopleImageTwo.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
             peopleImageTwo.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+            peopleImageTwo.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.49).isActive = true
+            peopleImageTwo.heightAnchor.constraint(equalTo: peopleImageTwo.widthAnchor).isActive = true
             
-            peopleImageThree.topAnchor.constraint(equalTo: peopleImageOne.bottomAnchor).isActive = true
+            peopleImageThree.topAnchor.constraint(equalTo: peopleImageOne.bottomAnchor, constant: 3).isActive = true
             peopleImageThree.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+            peopleImageThree.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.49).isActive = true
+            peopleImageThree.heightAnchor.constraint(equalTo: peopleImageThree.widthAnchor).isActive = true
             
-            peopleImageFour.topAnchor.constraint(equalTo: peopleImageTwo.bottomAnchor).isActive = true
+            peopleImageFour.topAnchor.constraint(equalTo: peopleImageTwo.bottomAnchor, constant: 3).isActive = true
             peopleImageFour.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+            peopleImageFour.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.49).isActive = true
+            peopleImageFour.heightAnchor.constraint(equalTo: peopleImageFour.widthAnchor).isActive = true
             
             albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
-            albumNameLabel.topAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+            albumNameLabel.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 6).isActive = true
             albumNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+            albumNameLabel.heightAnchor.constraint(equalTo: albumNameLabel.widthAnchor, multiplier: 0.11).isActive = true
             
             numberOfPhotoLabel.translatesAutoresizingMaskIntoConstraints = false
-            numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor).isActive = true
+            numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: 3).isActive = true
             numberOfPhotoLabel.widthAnchor.constraint(equalTo: albumNameLabel.widthAnchor).isActive = true
+            numberOfPhotoLabel.heightAnchor.constraint(equalTo: albumNameLabel.heightAnchor).isActive = true
         } else {
             contentView.addSubview(albumImage)
             contentView.addSubview(albumNameLabel)
