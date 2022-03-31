@@ -10,16 +10,21 @@ import UIKit
 final class ViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionalLayout())
+        let collectionView = UICollectionView(frame: CGRect(origin: view.frame.origin, size: CGSize(width: view.frame.width, height: view.frame.height - 83)), collectionViewLayout: createCompositionalLayout())
         
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         collectionView.register(AlbumsCollectionViewCell.self, forCellWithReuseIdentifier: AlbumsCollectionViewCell.identifier)
-        collectionView.register(SectionHeader.self,
+        collectionView.register(MediaFileTypeCollectionViewCell.self, forCellWithReuseIdentifier: MediaFileTypeCollectionViewCell.identifier)
+        
+        collectionView.register(SectionHeaderForAlbums.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: SectionHeader.identifier)
+                                withReuseIdentifier: SectionHeaderForAlbums.identifier)
+        collectionView.register(SectionHeaderForMediaFileTypes.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: SectionHeaderForMediaFileTypes.identifier)
         
         return collectionView
     }()
@@ -64,11 +69,15 @@ final class ViewController: UIViewController {
     
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
-            let section = self.models[sectionIndex]
-            switch section.type {
-            case "Люди и места":
+            let sectionType = self.models[sectionIndex].type
+            
+            if sectionType == "Люди и места" {
                 return self.createPeopleAndPlacesSection()
-            default:
+            } else if sectionType == "Типы медиафайлов" {
+                return self.createMediaFileTypesSection()
+            } else if sectionType == "Другое" {
+                return self.createOtherSection()
+            } else {
                 return self.createMyAlbumsSection()
             }
         }
@@ -121,6 +130,49 @@ final class ViewController: UIViewController {
         section.orthogonalScrollingBehavior = .groupPaging
         section.contentInsets = NSDirectionalEdgeInsets(top: 54, leading: 13, bottom: 0, trailing: 13)
         section.boundarySupplementaryItems = [header]
+        
+        return section
+    }
+    
+    private func createMediaFileTypesSection() -> NSCollectionLayoutSection {
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.25))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                                 elementKind: UICollectionView.elementKindSectionHeader,
+                                                                 alignment: .top)
+        header.contentInsets = NSDirectionalEdgeInsets(top: 165, leading: 0, bottom: 0, trailing: 0)
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .estimated(view.frame.size.width * 0.13))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 115, leading: 13, bottom: 0, trailing: 13)
+        section.boundarySupplementaryItems = [header]
+        
+        return section
+    }
+    
+    private func createOtherSection() -> NSCollectionLayoutSection {
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.25))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                                 elementKind: UICollectionView.elementKindSectionHeader,
+                                                                 alignment: .top)
+        header.contentInsets = NSDirectionalEdgeInsets(top: 120, leading: 0, bottom: 0, trailing: 0)
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .estimated(view.frame.size.width * 0.13))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 75, leading: 13, bottom: 0, trailing: 13)
+        section.boundarySupplementaryItems = [header]
+        
         return section
     }
 }
@@ -136,30 +188,47 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let model = models[indexPath.section].options[indexPath.row]
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: AlbumsCollectionViewCell.identifier,
-            for: indexPath) as? AlbumsCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        if model.isListItem {
+        let sectionType = models[indexPath.section].type
+        let modelItem = models[indexPath.section].options[indexPath.row]
+        if sectionType == "Мои альбомы" || sectionType == "Люди и места" {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: AlbumsCollectionViewCell.identifier,
+                for: indexPath) as? AlbumsCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configure(with: modelItem)
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MediaFileTypeCollectionViewCell.identifier,
+                for: indexPath) as? MediaFileTypeCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configure(with: modelItem)
             cell.accessories = [.disclosureIndicator()]
+            return cell
         }
-        cell.configure(with: model)
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let model = models[indexPath.section]
-        switch model.type {
-        default:
+        let section = models[indexPath.section]
+        if section.isHeaderWithButton {
+            guard let header = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: SectionHeaderForAlbums.identifier,
+                    for: indexPath) as? SectionHeaderForAlbums else {
+                    return UICollectionReusableView()
+                }
+            header.configureHeader(with: section)
+            return header
+        } else {
             guard let header = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
-                withReuseIdentifier: SectionHeader.identifier,
-                for: indexPath) as? SectionHeader else {
+                withReuseIdentifier: SectionHeaderForMediaFileTypes.identifier,
+                for: indexPath) as? SectionHeaderForMediaFileTypes else {
                 return UICollectionReusableView()
             }
-            header.configreHeader(with: model)
+            header.configureHeader(with: section)
             return header
         }
     }
@@ -169,6 +238,8 @@ extension ViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        let model = models[indexPath.section].options[indexPath.row].name
+        print("Нажата ячейка", model)
     }
 }
 

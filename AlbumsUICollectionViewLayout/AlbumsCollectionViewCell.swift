@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class AlbumsCollectionViewCell: UICollectionViewListCell {
+final class AlbumsCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "AlbumsCollectionViewCell"
         
@@ -45,7 +45,7 @@ final class AlbumsCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    private lazy var heartIcon: UIImageView = {
+    private lazy var favoritesIcon: UIImageView = {
         let icon = UIImageView()
         
         icon.image = UIImage(systemName: "heart.fill")
@@ -65,7 +65,7 @@ final class AlbumsCollectionViewCell: UICollectionViewListCell {
     }
     
     private func setupDisplay(with model: AlbumItem) {
-        if model.isPeopleItem {
+        if model.isPeopleAndPlacesItem {
             contentView.addSubview(peopleImageOne)
             contentView.addSubview(peopleImageTwo)
             contentView.addSubview(peopleImageThree)
@@ -107,25 +107,12 @@ final class AlbumsCollectionViewCell: UICollectionViewListCell {
             numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: 3).isActive = true
             numberOfPhotoLabel.widthAnchor.constraint(equalTo: albumNameLabel.widthAnchor).isActive = true
             numberOfPhotoLabel.heightAnchor.constraint(equalTo: albumNameLabel.heightAnchor).isActive = true
-        } else {
-            contentView.addSubview(albumImage)
-            contentView.addSubview(albumNameLabel)
-            contentView.addSubview(numberOfPhotoLabel)
             
-            if model.isListItem {
-                albumImage.translatesAutoresizingMaskIntoConstraints = false
-                albumImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-                albumImage.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        } else {
+                contentView.addSubview(albumImage)
+                contentView.addSubview(albumNameLabel)
+                contentView.addSubview(numberOfPhotoLabel)
                 
-                albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
-                albumNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-                albumNameLabel.leftAnchor.constraint(equalTo: albumImage.rightAnchor).isActive = true
-                
-                numberOfPhotoLabel.translatesAutoresizingMaskIntoConstraints = false
-                numberOfPhotoLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-                numberOfPhotoLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor,
-                                                          constant: -20).isActive = true
-            } else {
                 albumImage.translatesAutoresizingMaskIntoConstraints = false
                 albumImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
                 albumImage.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
@@ -141,26 +128,23 @@ final class AlbumsCollectionViewCell: UICollectionViewListCell {
                 numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: 3).isActive = true
                 numberOfPhotoLabel.widthAnchor.constraint(equalTo: albumNameLabel.widthAnchor).isActive = true
                 numberOfPhotoLabel.heightAnchor.constraint(equalTo: albumNameLabel.heightAnchor).isActive = true
+            
                 if model.isHeartIcon {
-                    contentView.addSubview(heartIcon)
+                    contentView.addSubview(favoritesIcon)
                     
-                    heartIcon.translatesAutoresizingMaskIntoConstraints = false
-                    heartIcon.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
-                    heartIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
-                    heartIcon.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.13).isActive = true
-                    heartIcon.heightAnchor.constraint(equalTo: heartIcon.widthAnchor).isActive = true
+                    favoritesIcon.translatesAutoresizingMaskIntoConstraints = false
+                    favoritesIcon.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
+                    favoritesIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
+                    favoritesIcon.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.13).isActive = true
+                    favoritesIcon.heightAnchor.constraint(equalTo: favoritesIcon.widthAnchor).isActive = true
                 }
             }
         }
-
-    }
     
     func configure(with model: AlbumItem) {
-        albumImage.image = model.photo
-        albumImage.tintColor = model.isListItem ? .systemBlue : nil
-        albumNameLabel.text = model.albumName
-        albumNameLabel.textColor = model.isListItem ? .systemBlue : nil
-        numberOfPhotoLabel.text = model.numberOfPhoto
+        albumImage.image = model.image
+        albumNameLabel.text = model.name
+        numberOfPhotoLabel.text = model.amountOfMedia
         setupDisplay(with: model)
     }
 
