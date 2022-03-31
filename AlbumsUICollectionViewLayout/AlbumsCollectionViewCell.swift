@@ -10,23 +10,23 @@ import UIKit
 
 final class AlbumsCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "AlbumsCollectionViewCell"
+    static let identifier = Strings.albumsCollectionViewCellIdentifier
     
     //MARK: - Views
     
     private lazy var albumImage: UIImageView = {
         let image = UIImageView()
         
-        image.layer.cornerRadius = contentView.frame.width * 0.03
+        image.layer.cornerRadius = contentView.frame.width * Sizes.albumImageCornerRadiusMultiplier
         image.layer.masksToBounds = true
         
         return image
     }()
     
-    private lazy var peopleImageOne = createPeopleImage(with: UIImage(named: "people.photo.one"))
-    private lazy var peopleImageTwo = createPeopleImage(with: UIImage(named: "people.photo.two"))
-    private lazy var peopleImageThree = createPeopleImage(with: UIImage(named: "people.photo.three"))
-    private lazy var peopleImageFour = createPeopleImage(with: UIImage(named: "people.photo.four"))
+    private lazy var peopleImageOne = createPeopleImage(with: UIImage(named: Images.peopleOneImageName))
+    private lazy var peopleImageTwo = createPeopleImage(with: UIImage(named: Images.peopleTwoImageName))
+    private lazy var peopleImageThree = createPeopleImage(with: UIImage(named: Images.peopleThreeImageName))
+    private lazy var peopleImageFour = createPeopleImage(with: UIImage(named: Images.peopleFourImageName))
     
     private lazy var albumNameLabel: UILabel = {
         let label = UILabel()
@@ -42,7 +42,7 @@ final class AlbumsCollectionViewCell: UICollectionViewCell {
         
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .left
-        label.alpha = 0.7
+        label.alpha = Display.numberOfPhotoLabelAlpha
         
         return label
     }()
@@ -50,7 +50,7 @@ final class AlbumsCollectionViewCell: UICollectionViewCell {
     private lazy var favoritesIcon: UIImageView = {
         let icon = UIImageView()
         
-        icon.image = UIImage(systemName: "heart.fill")
+        icon.image = UIImage(systemName: Images.favoritesImageName)
         icon.tintColor = .white
         
         return icon
@@ -59,7 +59,7 @@ final class AlbumsCollectionViewCell: UICollectionViewCell {
     private func createPeopleImage(with peopleImage: UIImage?) -> UIImageView {
         let imageView = UIImageView()
         
-        imageView.layer.cornerRadius = contentView.frame.width * 0.25
+        imageView.layer.cornerRadius = contentView.frame.width * Sizes.peopleImageCornerRadiusMultiplier
         imageView.layer.masksToBounds = true
         imageView.image = peopleImage
         
@@ -85,62 +85,67 @@ final class AlbumsCollectionViewCell: UICollectionViewCell {
             
             peopleImageOne.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
             peopleImageOne.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-            peopleImageOne.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.49).isActive = true
+            peopleImageOne.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: Sizes.widthMultiplier0_49).isActive = true
             peopleImageOne.heightAnchor.constraint(equalTo: peopleImageOne.widthAnchor).isActive = true
             
             peopleImageTwo.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
             peopleImageTwo.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-            peopleImageTwo.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.49).isActive = true
+            peopleImageTwo.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: Sizes.widthMultiplier0_49).isActive = true
             peopleImageTwo.heightAnchor.constraint(equalTo: peopleImageTwo.widthAnchor).isActive = true
             
-            peopleImageThree.topAnchor.constraint(equalTo: peopleImageOne.bottomAnchor, constant: 3).isActive = true
+            peopleImageThree.topAnchor.constraint(equalTo: peopleImageOne.bottomAnchor, constant: Offsets.topOffset3).isActive = true
             peopleImageThree.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-            peopleImageThree.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.49).isActive = true
+            peopleImageThree.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: Sizes.widthMultiplier0_49).isActive = true
             peopleImageThree.heightAnchor.constraint(equalTo: peopleImageThree.widthAnchor).isActive = true
             
-            peopleImageFour.topAnchor.constraint(equalTo: peopleImageTwo.bottomAnchor, constant: 3).isActive = true
+            peopleImageFour.topAnchor.constraint(equalTo: peopleImageTwo.bottomAnchor, constant: Offsets.topOffset3).isActive = true
             peopleImageFour.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-            peopleImageFour.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.49).isActive = true
+            peopleImageFour.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: Sizes.widthMultiplier0_49).isActive = true
             peopleImageFour.heightAnchor.constraint(equalTo: peopleImageFour.widthAnchor).isActive = true
             
             albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
-            albumNameLabel.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 6).isActive = true
+            albumNameLabel.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Offsets.topOffset6).isActive = true
             albumNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-            albumNameLabel.heightAnchor.constraint(equalTo: albumNameLabel.widthAnchor, multiplier: 0.11).isActive = true
+            albumNameLabel.heightAnchor.constraint(equalTo: albumNameLabel.widthAnchor,
+                                                   multiplier: Sizes.albumNameLabelWidthMultiplier0_11).isActive = true
             
             numberOfPhotoLabel.translatesAutoresizingMaskIntoConstraints = false
-            numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: 3).isActive = true
+            numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: Offsets.topOffset3).isActive = true
             numberOfPhotoLabel.widthAnchor.constraint(equalTo: albumNameLabel.widthAnchor).isActive = true
             numberOfPhotoLabel.heightAnchor.constraint(equalTo: albumNameLabel.heightAnchor).isActive = true
             
         } else {
-                contentView.addSubview(albumImage)
-                contentView.addSubview(albumNameLabel)
-                contentView.addSubview(numberOfPhotoLabel)
+            contentView.addSubview(albumImage)
+            contentView.addSubview(albumNameLabel)
+            contentView.addSubview(numberOfPhotoLabel)
                 
-                albumImage.translatesAutoresizingMaskIntoConstraints = false
-                albumImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-                albumImage.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-                albumImage.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-                albumImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+            albumImage.translatesAutoresizingMaskIntoConstraints = false
+            albumImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+            albumImage.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+            albumImage.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+            albumImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
                 
-                albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
-                albumNameLabel.topAnchor.constraint(equalTo: albumImage.bottomAnchor, constant: 6).isActive = true
-                albumNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-                albumNameLabel.heightAnchor.constraint(equalTo: albumNameLabel.widthAnchor, multiplier: 0.11).isActive = true
+            albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
+            albumNameLabel.topAnchor.constraint(equalTo: albumImage.bottomAnchor, constant: Offsets.topOffset6).isActive = true
+            albumNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+            albumNameLabel.heightAnchor.constraint(equalTo: albumNameLabel.widthAnchor,
+                                                   multiplier: Sizes.albumNameLabelWidthMultiplier0_11).isActive = true
                 
-                numberOfPhotoLabel.translatesAutoresizingMaskIntoConstraints = false
-                numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: 3).isActive = true
-                numberOfPhotoLabel.widthAnchor.constraint(equalTo: albumNameLabel.widthAnchor).isActive = true
-                numberOfPhotoLabel.heightAnchor.constraint(equalTo: albumNameLabel.heightAnchor).isActive = true
+            numberOfPhotoLabel.translatesAutoresizingMaskIntoConstraints = false
+            numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: Offsets.topOffset3).isActive = true
+            numberOfPhotoLabel.widthAnchor.constraint(equalTo: albumNameLabel.widthAnchor).isActive = true
+            numberOfPhotoLabel.heightAnchor.constraint(equalTo: albumNameLabel.heightAnchor).isActive = true
             
                 if model.isHeartIcon {
                     contentView.addSubview(favoritesIcon)
                     
                     favoritesIcon.translatesAutoresizingMaskIntoConstraints = false
-                    favoritesIcon.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
-                    favoritesIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5).isActive = true
-                    favoritesIcon.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.13).isActive = true
+                    favoritesIcon.leftAnchor.constraint(equalTo: contentView.leftAnchor,
+                                                        constant: Offsets.favoritesIconLeftOffset).isActive = true
+                    favoritesIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                          constant: Offsets.favoritesIconBottomOffset).isActive = true
+                    favoritesIcon.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                         multiplier: Sizes.favoritesIconWidthMultiplier0_13).isActive = true
                     favoritesIcon.heightAnchor.constraint(equalTo: favoritesIcon.widthAnchor).isActive = true
                 }
             }
@@ -153,4 +158,39 @@ final class AlbumsCollectionViewCell: UICollectionViewCell {
         setupDisplay(with: model)
     }
 
+}
+
+//MARK: - Constants
+
+extension AlbumsCollectionViewCell {
+    enum Offsets {
+        static let topOffset3: CGFloat = 3
+        static let topOffset6: CGFloat = 6
+        static let favoritesIconLeftOffset: CGFloat = 5
+        static let favoritesIconBottomOffset: CGFloat = -5
+    }
+    
+    enum Sizes {
+        static let widthMultiplier0_49: CGFloat = 0.49
+        static let albumNameLabelWidthMultiplier0_11: CGFloat = 0.11
+        static let favoritesIconWidthMultiplier0_13: CGFloat = 0.13
+        static let albumImageCornerRadiusMultiplier: CGFloat = 0.03
+        static let peopleImageCornerRadiusMultiplier: CGFloat = 0.25
+    }
+    
+    enum Display {
+        static let numberOfPhotoLabelAlpha: CGFloat = 0.7
+    }
+    
+    enum Strings {
+        static let albumsCollectionViewCellIdentifier: String = "AlbumsCollectionViewCell"
+    }
+    
+    enum Images {
+        static let peopleOneImageName: String = "people.photo.one"
+        static let peopleTwoImageName: String = "people.photo.two"
+        static let peopleThreeImageName: String = "people.photo.three"
+        static let peopleFourImageName: String = "people.photo.four"
+        static let favoritesImageName: String = "heart.fill"
+    }
 }

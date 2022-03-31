@@ -16,14 +16,14 @@ protocol SectionHeader {
 }
 
 final class SectionHeaderForMediaFileTypes: UICollectionViewCell, SectionHeader {
-    static let identifier = "SectionHeaderForMediaFileTypes"
+    static let identifier = Strings.sectionHeaderForMediaFileTypesIdentifier
     
     //MARK: - Views
     
     lazy var titleSection: UILabel = {
         let title = UILabel()
         
-        title.font = .systemFont(ofSize: contentView.frame.width * 0.06, weight: .bold)
+        title.font = .systemFont(ofSize: contentView.frame.width * Sizes.titleSectionFontMultiplierSize, weight: .bold)
         title.textAlignment = .left
         title.textColor = .black
         
@@ -34,7 +34,7 @@ final class SectionHeaderForMediaFileTypes: UICollectionViewCell, SectionHeader 
         let view = UIView()
         
         view.backgroundColor = .black
-        view.alpha = 0.4
+        view.alpha = Display.separatorViewAlpha
         
         return view
     }()
@@ -46,14 +46,15 @@ final class SectionHeaderForMediaFileTypes: UICollectionViewCell, SectionHeader 
         contentView.addSubview(separatorView)
 
         titleSection.translatesAutoresizingMaskIntoConstraints = false
-        titleSection.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
-        titleSection.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
+        titleSection.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Offsets.topOffset10).isActive = true
+        titleSection.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Offsets.leftOffset5).isActive = true
 
         separatorView.translatesAutoresizingMaskIntoConstraints = false
         separatorView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 6).isActive = true
+        separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Offsets.leftOffset6).isActive = true
         separatorView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-        separatorView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.001).isActive = true
+        separatorView.heightAnchor.constraint(equalTo: contentView.widthAnchor,
+                                              multiplier: Sizes.heightMultiplierSize0_001).isActive = true
     }
     
     func configureHeader(with section: Section) {
@@ -64,12 +65,12 @@ final class SectionHeaderForMediaFileTypes: UICollectionViewCell, SectionHeader 
 
 final class SectionHeaderForAlbums: UICollectionViewCell, SectionHeader {
     
-    static let identifier = "SectionHeaderForAlbums"
+    static let identifier = Strings.sectionHeaderForAlbumsIdentifier
     
     lazy var titleSection: UILabel = {
         let title = UILabel()
         
-        title.font = .systemFont(ofSize: contentView.frame.width * 0.06, weight: .bold)
+        title.font = .systemFont(ofSize: contentView.frame.width * Sizes.titleSectionFontMultiplierSize, weight: .bold)
         title.textAlignment = .left
         title.textColor = .black
         
@@ -79,7 +80,7 @@ final class SectionHeaderForAlbums: UICollectionViewCell, SectionHeader {
     lazy var seeAllButton: UIButton = {
         let button = UIButton(type: .system)
         
-        button.setTitle("Все", for: .normal)
+        button.setTitle(Strings.seeAllButtonTitle, for: .normal)
         button.tintColor = .systemBlue
 
         return button
@@ -89,7 +90,7 @@ final class SectionHeaderForAlbums: UICollectionViewCell, SectionHeader {
         let view = UIView()
         
         view.backgroundColor = .black
-        view.alpha = 0.4
+        view.alpha = Display.separatorViewAlpha
         
         return view
     }()
@@ -106,19 +107,70 @@ final class SectionHeaderForAlbums: UICollectionViewCell, SectionHeader {
         contentView.addSubview(seeAllButton)
 
         titleSection.translatesAutoresizingMaskIntoConstraints = false
-        titleSection.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
-        titleSection.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
+        titleSection.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Offsets.topOffset10).isActive = true
+        titleSection.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Offsets.leftOffset5).isActive = true
 
         separatorView.translatesAutoresizingMaskIntoConstraints = false
         separatorView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 6).isActive = true
+        separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Offsets.leftOffset6).isActive = true
         separatorView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-        separatorView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.001).isActive = true
+        separatorView.heightAnchor.constraint(equalTo: contentView.widthAnchor,
+                                              multiplier: Sizes.heightMultiplierSize0_001).isActive = true
 
-        seeAllButton.frame = CGRect(x: contentView.frame.width * 0.89,
-                                    y: contentView.frame.height * 0.15,
-                                    width: contentView.frame.width * 0.1,
-                                    height: contentView.frame.width * 0.1)
+        seeAllButton.frame = CGRect(x: contentView.frame.width * Offsets.seeAllButtonXMultiplierOffset,
+                                    y: contentView.frame.height * Offsets.seeAllButtonYMultiplierOffset,
+                                    width: contentView.frame.width * Sizes.seeAllButtonWidth,
+                                    height: contentView.frame.width * Sizes.seeAllButtonWidth)
 
+    }
+}
+
+//MARK: - SectionHeaderForMediaFileTypes constants
+
+extension SectionHeaderForMediaFileTypes {
+    enum Offsets {
+        static let topOffset10: CGFloat = 10
+        static let leftOffset5: CGFloat = 5
+        static let leftOffset6: CGFloat = 6
+    }
+    
+    enum Sizes {
+        static let heightMultiplierSize0_001: CGFloat = 0.001
+        static let titleSectionFontMultiplierSize: CGFloat = 0.06
+    }
+    
+    enum Display {
+        static let separatorViewAlpha: CGFloat = 0.4
+    }
+    
+    enum Strings {
+        static let sectionHeaderForMediaFileTypesIdentifier: String = "SectionHeaderForMediaFileTypes"
+    }
+}
+
+//MARK: - SectionHeaderForAlbums constants
+
+extension SectionHeaderForAlbums {
+    enum Offsets {
+        static let topOffset10: CGFloat = 10
+        static let leftOffset5: CGFloat = 5
+        static let leftOffset6: CGFloat = 6
+        static let seeAllButtonXMultiplierOffset: CGFloat = 0.89
+        static let seeAllButtonYMultiplierOffset: CGFloat = 0.15
+    }
+    
+    enum Sizes {
+        static let heightMultiplierSize0_001: CGFloat = 0.001
+        static let seeAllButtonWidth: CGFloat = 0.1
+        static let titleSectionFontMultiplierSize: CGFloat = 0.06
+    }
+    
+    enum Display {
+        static let separatorViewAlpha: CGFloat = 0.4
+    }
+    
+    enum Strings {
+        static let sectionHeaderForAlbumsIdentifier: String = "SectionHeaderForAlbums"
+        static let seeAllButtonTitle: String = "Все"
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 final class MediaFileTypeCollectionViewCell: UICollectionViewListCell {
     
-    static let identifier = "MediaFileTypeCollectionViewCell"
+    static let identifier = Strings.mediaFileTypeCollectionViewCellIdentifier
     
     //MARK: - Views
     private lazy var albumIcon: UIImageView = {
@@ -24,7 +24,7 @@ final class MediaFileTypeCollectionViewCell: UICollectionViewListCell {
         
         label.adjustsFontSizeToFitWidth = true
         label.textColor = .systemBlue
-        label.font = .systemFont(ofSize: contentView.frame.width * 0.058)
+        label.font = .systemFont(ofSize: contentView.frame.width * Sizes.albumNameLabelFontMultiplierSize)
         return label
         
     }()
@@ -33,7 +33,7 @@ final class MediaFileTypeCollectionViewCell: UICollectionViewListCell {
         let label = UILabel()
         
         label.adjustsFontSizeToFitWidth = true
-        label.alpha = 0.5
+        label.alpha = Display.numberOfPhotoLabelAlpha
         
         return label
     }()
@@ -42,7 +42,7 @@ final class MediaFileTypeCollectionViewCell: UICollectionViewListCell {
         let view = UIView()
         
         view.backgroundColor = .black
-        view.alpha = 0.4
+        view.alpha = Display.separatorViewAlpha
         
         return view
     }()
@@ -63,23 +63,26 @@ final class MediaFileTypeCollectionViewCell: UICollectionViewListCell {
             contentView.addSubview(separatorView)
             
             separatorView.translatesAutoresizingMaskIntoConstraints = false
-            separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 47).isActive = true
+            separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Offsets.leftOffset47).isActive = true
             separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
             separatorView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-            separatorView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.001).isActive = true
+            separatorView.heightAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                  multiplier: Sizes.separatorViewHeightMultiplierSize).isActive = true
         }
         
         albumIcon.translatesAutoresizingMaskIntoConstraints = false
         albumIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        albumIcon.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -152).isActive = true
+        albumIcon.centerXAnchor.constraint(equalTo: contentView.centerXAnchor,
+                                           constant: Offsets.albumIconCenterXOffset).isActive = true
         
         albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
         albumNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        albumNameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 47).isActive = true
+        albumNameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Offsets.leftOffset47).isActive = true
         
         numberOfPhotoLabel.translatesAutoresizingMaskIntoConstraints = false
         numberOfPhotoLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        numberOfPhotoLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -6).isActive = true
+        numberOfPhotoLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor,
+                                                  constant: Offsets.numberOfPhotoLabelRightOffset).isActive = true
     }
     
     func configure(with model: AlbumItem) {
@@ -87,5 +90,29 @@ final class MediaFileTypeCollectionViewCell: UICollectionViewListCell {
         albumNameLabel.text = model.name
         numberOfPhotoLabel.text = model.amountOfMedia
         setupDisplay(with: model)
+    }
+}
+
+//MARK: - Constants
+
+extension MediaFileTypeCollectionViewCell {
+    enum Offsets {
+        static let leftOffset47: CGFloat = 47
+        static let albumIconCenterXOffset: CGFloat = -152
+        static let numberOfPhotoLabelRightOffset: CGFloat = -6
+    }
+    
+    enum Sizes {
+        static let separatorViewHeightMultiplierSize: CGFloat = 0.001
+        static let albumNameLabelFontMultiplierSize: CGFloat = 0.058
+    }
+    
+    enum Display {
+        static let numberOfPhotoLabelAlpha: CGFloat = 0.5
+        static let separatorViewAlpha: CGFloat = 0.4
+    }
+    
+    enum Strings {
+        static let mediaFileTypeCollectionViewCellIdentifier: String = "MediaFileTypeCollectionViewCell"
     }
 }
