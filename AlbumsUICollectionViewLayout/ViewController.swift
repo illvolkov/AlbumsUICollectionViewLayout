@@ -9,6 +9,8 @@ import UIKit
 
 final class ViewController: UIViewController {
     
+    //MARK: - View
+    
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: CGRect(origin: view.frame.origin, size: CGSize(width: view.frame.width, height: view.frame.height - 83)), collectionViewLayout: createCompositionalLayout())
         
@@ -28,6 +30,8 @@ final class ViewController: UIViewController {
         
         return collectionView
     }()
+    
+    //MARK: Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +43,8 @@ final class ViewController: UIViewController {
         super.viewWillAppear(animated)
         setupNavigationController()
     }
+    
+    //MARK: - Settings
     
     private func setupHierarchy() {
         view.addSubview(collectionView)
@@ -64,9 +70,11 @@ final class ViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
-        
+    
+    //Модели данных
     var models = AlbumModel.configure()
     
+    //Конфигурация секций
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
             let sectionType = self.models[sectionIndex].type
@@ -83,6 +91,8 @@ final class ViewController: UIViewController {
         }
         return layout
     }
+    
+    //MARK: - Sections
     
     private func createMyAlbumsSection() -> NSCollectionLayoutSection {
         
@@ -177,6 +187,8 @@ final class ViewController: UIViewController {
     }
 }
 
+//MARK: - UICollectionViewDataSource methods
+
 extension ViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -190,6 +202,7 @@ extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let sectionType = models[indexPath.section].type
         let modelItem = models[indexPath.section].options[indexPath.row]
+        //Тип секции устанавливается в зависимости от тайтла хедера секции
         if sectionType == "Мои альбомы" || sectionType == "Люди и места" {
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: AlbumsCollectionViewCell.identifier,
@@ -233,6 +246,8 @@ extension ViewController: UICollectionViewDataSource {
         }
     }
 }
+
+//MARK: - UICollectionViewDelegate methods
 
 extension ViewController: UICollectionViewDelegate {
     

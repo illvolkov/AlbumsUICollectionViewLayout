@@ -11,7 +11,9 @@ import UIKit
 final class AlbumsCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "AlbumsCollectionViewCell"
-        
+    
+    //MARK: - Views
+    
     private lazy var albumImage: UIImageView = {
         let image = UIImageView()
         
@@ -64,6 +66,9 @@ final class AlbumsCollectionViewCell: UICollectionViewCell {
         return imageView
     }
     
+    //MARK: - Settings 
+    
+    //Настройка отображения вьюх
     private func setupDisplay(with model: AlbumItem) {
         if model.isPeopleAndPlacesItem {
             contentView.addSubview(peopleImageOne)

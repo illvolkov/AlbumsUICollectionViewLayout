@@ -18,6 +18,8 @@ protocol SectionHeader {
 final class SectionHeaderForMediaFileTypes: UICollectionViewCell, SectionHeader {
     static let identifier = "SectionHeaderForMediaFileTypes"
     
+    //MARK: - Views
+    
     lazy var titleSection: UILabel = {
         let title = UILabel()
         
@@ -37,12 +39,8 @@ final class SectionHeaderForMediaFileTypes: UICollectionViewCell, SectionHeader 
         return view
     }()
     
-    func configureHeader(with section: Section) {
-        titleSection.text = section.type
-        setupDisplay(with: section)
-    }
+    //MARK: - Settings
     
-
     func setupDisplay(with section: Section) {
         contentView.addSubview(titleSection)
         contentView.addSubview(separatorView)
@@ -56,6 +54,11 @@ final class SectionHeaderForMediaFileTypes: UICollectionViewCell, SectionHeader 
         separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 6).isActive = true
         separatorView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
         separatorView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.001).isActive = true
+    }
+    
+    func configureHeader(with section: Section) {
+        titleSection.text = section.type
+        setupDisplay(with: section)
     }
 }
 

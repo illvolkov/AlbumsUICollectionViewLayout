@@ -12,6 +12,7 @@ final class MediaFileTypeCollectionViewCell: UICollectionViewListCell {
     
     static let identifier = "MediaFileTypeCollectionViewCell"
     
+    //MARK: - Views
     private lazy var albumIcon: UIImageView = {
         let image = UIImageView()
         image.tintColor = .systemBlue
@@ -51,6 +52,8 @@ final class MediaFileTypeCollectionViewCell: UICollectionViewListCell {
 
         separatorView.removeFromSuperview()
     }
+    
+    //MARK: - Settings
     
     private func setupDisplay(with model: AlbumItem) {
         contentView.addSubview(albumIcon)
