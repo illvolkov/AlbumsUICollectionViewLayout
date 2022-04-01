@@ -31,17 +31,17 @@ final class AlbumsCollectionViewCell: UICollectionViewCell {
     private lazy var albumNameLabel: UILabel = {
         let label = UILabel()
         
-        label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .left
-        return label
+        label.font = .systemFont(ofSize: contentView.frame.width * Sizes.multiplierFontSize0_091)
         
+        return label
     }()
     
     private lazy var numberOfPhotoLabel: UILabel = {
         let label = UILabel()
         
-        label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .left
+        label.font = .systemFont(ofSize: contentView.frame.width * Sizes.multiplierFontSize0_091)
         label.alpha = Display.numberOfPhotoLabelAlpha
         
         return label
@@ -64,6 +64,15 @@ final class AlbumsCollectionViewCell: UICollectionViewCell {
         imageView.image = peopleImage
         
         return imageView
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        peopleImageOne.removeFromSuperview()
+        peopleImageTwo.removeFromSuperview()
+        peopleImageThree.removeFromSuperview()
+        peopleImageFour.removeFromSuperview()
     }
     
     //MARK: - Settings 
@@ -106,13 +115,10 @@ final class AlbumsCollectionViewCell: UICollectionViewCell {
             albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
             albumNameLabel.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: Offsets.topOffset6).isActive = true
             albumNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-            albumNameLabel.heightAnchor.constraint(equalTo: albumNameLabel.widthAnchor,
-                                                   multiplier: Sizes.albumNameLabelWidthMultiplier0_11).isActive = true
             
             numberOfPhotoLabel.translatesAutoresizingMaskIntoConstraints = false
             numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: Offsets.topOffset3).isActive = true
             numberOfPhotoLabel.widthAnchor.constraint(equalTo: albumNameLabel.widthAnchor).isActive = true
-            numberOfPhotoLabel.heightAnchor.constraint(equalTo: albumNameLabel.heightAnchor).isActive = true
             
         } else {
             contentView.addSubview(albumImage)
@@ -128,13 +134,10 @@ final class AlbumsCollectionViewCell: UICollectionViewCell {
             albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
             albumNameLabel.topAnchor.constraint(equalTo: albumImage.bottomAnchor, constant: Offsets.topOffset6).isActive = true
             albumNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-            albumNameLabel.heightAnchor.constraint(equalTo: albumNameLabel.widthAnchor,
-                                                   multiplier: Sizes.albumNameLabelWidthMultiplier0_11).isActive = true
-                
+
             numberOfPhotoLabel.translatesAutoresizingMaskIntoConstraints = false
             numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: Offsets.topOffset3).isActive = true
             numberOfPhotoLabel.widthAnchor.constraint(equalTo: albumNameLabel.widthAnchor).isActive = true
-            numberOfPhotoLabel.heightAnchor.constraint(equalTo: albumNameLabel.heightAnchor).isActive = true
             
                 if model.isHeartIcon {
                     contentView.addSubview(favoritesIcon)
@@ -172,14 +175,14 @@ extension AlbumsCollectionViewCell {
     
     enum Sizes {
         static let widthMultiplier0_49: CGFloat = 0.49
-        static let albumNameLabelWidthMultiplier0_11: CGFloat = 0.11
+        static let multiplierFontSize0_091: CGFloat = 0.091
         static let favoritesIconWidthMultiplier0_13: CGFloat = 0.13
         static let albumImageCornerRadiusMultiplier: CGFloat = 0.03
         static let peopleImageCornerRadiusMultiplier: CGFloat = 0.25
     }
     
     enum Display {
-        static let numberOfPhotoLabelAlpha: CGFloat = 0.7
+        static let numberOfPhotoLabelAlpha: CGFloat = 0.6
     }
     
     enum Strings {

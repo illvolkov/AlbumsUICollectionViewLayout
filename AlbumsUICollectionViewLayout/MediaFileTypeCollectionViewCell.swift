@@ -16,6 +16,8 @@ final class MediaFileTypeCollectionViewCell: UICollectionViewListCell {
     private lazy var albumIcon: UIImageView = {
         let image = UIImageView()
         image.tintColor = .systemBlue
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: contentView.frame.width * Sizes.albumIconPointSize, weight: .regular)
+        image.preferredSymbolConfiguration = symbolConfig
         return image
     }()
     
@@ -33,6 +35,7 @@ final class MediaFileTypeCollectionViewCell: UICollectionViewListCell {
         let label = UILabel()
         
         label.adjustsFontSizeToFitWidth = true
+        label.font = .systemFont(ofSize: contentView.frame.width * Sizes.numberOfPhotoLabelFontMultiplierSize)
         label.alpha = Display.numberOfPhotoLabelAlpha
         
         return label
@@ -73,7 +76,7 @@ final class MediaFileTypeCollectionViewCell: UICollectionViewListCell {
         albumIcon.translatesAutoresizingMaskIntoConstraints = false
         albumIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         albumIcon.centerXAnchor.constraint(equalTo: contentView.centerXAnchor,
-                                           constant: Offsets.albumIconCenterXOffset).isActive = true
+                                           constant: contentView.frame.width * Offsets.albumIconCenterXOffset).isActive = true
         
         albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
         albumNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
@@ -98,18 +101,20 @@ final class MediaFileTypeCollectionViewCell: UICollectionViewListCell {
 extension MediaFileTypeCollectionViewCell {
     enum Offsets {
         static let leftOffset47: CGFloat = 47
-        static let albumIconCenterXOffset: CGFloat = -152
+        static let albumIconCenterXOffset: CGFloat = -0.42
         static let numberOfPhotoLabelRightOffset: CGFloat = -6
     }
     
     enum Sizes {
-        static let separatorViewHeightMultiplierSize: CGFloat = 0.001
+        static let separatorViewHeightMultiplierSize: CGFloat = 0.002
         static let albumNameLabelFontMultiplierSize: CGFloat = 0.058
+        static let numberOfPhotoLabelFontMultiplierSize: CGFloat = 0.045
+        static let albumIconPointSize: CGFloat = 0.06
     }
     
     enum Display {
         static let numberOfPhotoLabelAlpha: CGFloat = 0.5
-        static let separatorViewAlpha: CGFloat = 0.4
+        static let separatorViewAlpha: CGFloat = 0.3
     }
     
     enum Strings {

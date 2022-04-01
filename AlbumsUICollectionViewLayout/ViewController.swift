@@ -12,7 +12,7 @@ final class ViewController: UIViewController {
     //MARK: - View
     
     private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: CGRect(origin: view.frame.origin, size: CGSize(width: view.frame.width, height: view.frame.height - Offsets.collectionViewHeightOffset)), collectionViewLayout: createCompositionalLayout())
+        let collectionView = UICollectionView(frame: CGRect(origin: view.frame.origin, size: CGSize(width: view.frame.width, height: view.frame.height)), collectionViewLayout: createCompositionalLayout())
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -94,6 +94,7 @@ final class ViewController: UIViewController {
     
     //MARK: - Sections
     
+    //Настройка секции Мои альбомы
     private func createMyAlbumsSection() -> NSCollectionLayoutSection {
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Sizes.fractionalSize1),
@@ -129,6 +130,7 @@ final class ViewController: UIViewController {
         return section
     }
     
+    //Настройка секции Люди и места
     private func createPeopleAndPlacesSection() -> NSCollectionLayoutSection {
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Sizes.fractionalSize1),
@@ -136,7 +138,7 @@ final class ViewController: UIViewController {
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                  elementKind: UICollectionView.elementKindSectionHeader,
                                                                  alignment: .top)
-        header.contentInsets = NSDirectionalEdgeInsets(top: Offsets.topOffset54,
+        header.contentInsets = NSDirectionalEdgeInsets(top: view.frame.width * Offsets.topMultiplierOffset0_145,
                                                        leading: 0,
                                                        bottom: 0,
                                                        trailing: 0)
@@ -155,7 +157,7 @@ final class ViewController: UIViewController {
 
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
-        section.contentInsets = NSDirectionalEdgeInsets(top: Offsets.topOffset54,
+        section.contentInsets = NSDirectionalEdgeInsets(top: view.frame.width * Offsets.topMultiplierOffset0_145,
                                                         leading: Offsets.sectionLeadingTrailngOffset13,
                                                         bottom: 0,
                                                         trailing: Offsets.sectionLeadingTrailngOffset13)
@@ -164,13 +166,14 @@ final class ViewController: UIViewController {
         return section
     }
     
+    //Настройка секции Типы медиафайлов
     private func createMediaFileTypesSection() -> NSCollectionLayoutSection {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Sizes.fractionalSize1),
                                                 heightDimension: .fractionalWidth(Sizes.fractionSize0_25))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                  elementKind: UICollectionView.elementKindSectionHeader,
                                                                  alignment: .top)
-        header.contentInsets = NSDirectionalEdgeInsets(top: Offsets.headerMediaFileTypesTopOffset,
+        header.contentInsets = NSDirectionalEdgeInsets(top: view.frame.width * Offsets.headerMediaFileTypesMultiplierTopOffset,
                                                        leading: 0,
                                                        bottom: 0,
                                                        trailing: 0)
@@ -184,7 +187,7 @@ final class ViewController: UIViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: Offsets.sectionMediaFileTypesTopOffset,
+        section.contentInsets = NSDirectionalEdgeInsets(top: view.frame.width * Offsets.multiplierTopOffset0_3,
                                                         leading: Offsets.sectionLeadingTrailngOffset13,
                                                         bottom: 0,
                                                         trailing: Offsets.sectionLeadingTrailngOffset13)
@@ -193,13 +196,14 @@ final class ViewController: UIViewController {
         return section
     }
     
+    //Настройка секции Другое
     private func createOtherSection() -> NSCollectionLayoutSection {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(Sizes.fractionalSize1),
                                                 heightDimension: .fractionalWidth(Sizes.fractionSize0_25))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                  elementKind: UICollectionView.elementKindSectionHeader,
                                                                  alignment: .top)
-        header.contentInsets = NSDirectionalEdgeInsets(top: Offsets.headerOtherTopOffset,
+        header.contentInsets = NSDirectionalEdgeInsets(top: view.frame.width * Offsets.multiplierTopOffset0_3,
                                                        leading: 0,
                                                        bottom: 0,
                                                        trailing: 0)
@@ -213,7 +217,7 @@ final class ViewController: UIViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: Offsets.sectionOtherTopOffset,
+        section.contentInsets = NSDirectionalEdgeInsets(top: view.frame.width * Offsets.sectionOtherMultiplierTopOffset,
                                                         leading: Offsets.sectionLeadingTrailngOffset13,
                                                         bottom: 0,
                                                         trailing: Offsets.sectionLeadingTrailngOffset13)
@@ -289,8 +293,8 @@ extension ViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let model = models[indexPath.section].options[indexPath.row].name
-        print("Нажата ячейка", model)
+        let itemName = models[indexPath.section].options[indexPath.row].name
+        print("Нажата ячейка", itemName)
     }
 }
 
@@ -298,16 +302,14 @@ extension ViewController: UICollectionViewDelegate {
 
 extension ViewController {
     enum Offsets {
-        static let collectionViewHeightOffset: CGFloat = 83
         static let sectionLeadingTrailngOffset13: CGFloat = 13
-        static let topOffset54: CGFloat = 54
-        static let sectionMediaFileTypesTopOffset: CGFloat = 115
-        static let sectionOtherTopOffset: CGFloat = 75
+        static let sectionOtherMultiplierTopOffset: CGFloat = 0.18
+        static let multiplierTopOffset0_3: CGFloat = 0.3
+        static let topMultiplierOffset0_145: CGFloat = 0.145
         static let itemLeadingTrailngOffset5: CGFloat = 5
         static let itemMyAlbumsBottomOffset: CGFloat = 65
         static let navigationItemTitleLeftOffset: CGFloat = 20
-        static let headerMediaFileTypesTopOffset: CGFloat = 165
-        static let headerOtherTopOffset: CGFloat = 120
+        static let headerMediaFileTypesMultiplierTopOffset: CGFloat = 0.43
     }
     
     enum Sizes {
@@ -315,7 +317,7 @@ extension ViewController {
         static let fractionalSize0_5: CGFloat = 0.5
         static let fractionSize0_25: CGFloat = 0.25
         static let headerAbsoluteSize45: CGFloat = 45
-        static let groupMultiplierSize0_13: CGFloat = 0.13
+        static let groupMultiplierSize0_13: CGFloat = 0.132
         static let groupMyAlbumsWidthDivisionSize: CGFloat = 2.15
         static let groupMyAlbumsHeightDivisionSize: CGFloat = 0.825
         static let groupPeopleAndPlacesWidthDivisionSize: CGFloat = 0.93

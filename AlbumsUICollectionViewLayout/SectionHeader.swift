@@ -15,6 +15,7 @@ protocol SectionHeader {
     func setupDisplay(with section: Section)
 }
 
+//Конфигурация хедера без кнопки
 final class SectionHeaderForMediaFileTypes: UICollectionViewCell, SectionHeader {
     static let identifier = Strings.sectionHeaderForMediaFileTypesIdentifier
     
