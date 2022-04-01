@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                              image: UIImage(systemName: "photo.fill.on.rectangle.fill"),
                                                              tag: 0)
         forYouViewController.tabBarItem = UITabBarItem(title: "Для вас",
-                                                       image: UIImage(systemName: "list.bullet.rectangle.portrait.fill"),
+                                                       image: UIImage(systemName: "heart.text.square.fill"),
                                                        tag: 1)
         albumsViewController.tabBarItem = UITabBarItem(title: "Альбомы",
                                                        image: UIImage(systemName: "rectangle.stack.fill"),
