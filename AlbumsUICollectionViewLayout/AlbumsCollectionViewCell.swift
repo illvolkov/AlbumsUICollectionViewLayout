@@ -78,8 +78,9 @@ final class AlbumsCollectionViewCell: UICollectionViewCell {
     //MARK: - Settings 
     
     //Настройка отображения вьюх
-    private func setupDisplay(with model: AlbumItem) {
-        if model.isPeopleAndPlacesItem {
+    
+    private func setupPeopleItem(with model: AlbumItem) {
+        
             contentView.addSubview(peopleImageOne)
             contentView.addSubview(peopleImageTwo)
             contentView.addSubview(peopleImageThree)
@@ -119,46 +120,48 @@ final class AlbumsCollectionViewCell: UICollectionViewCell {
             numberOfPhotoLabel.translatesAutoresizingMaskIntoConstraints = false
             numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: Offsets.topOffset3).isActive = true
             numberOfPhotoLabel.widthAnchor.constraint(equalTo: albumNameLabel.widthAnchor).isActive = true
+        
+    }
+    
+    private func setupDefaultAlbumItem(with model: AlbumItem) {
+        
+        contentView.addSubview(albumImage)
+        contentView.addSubview(albumNameLabel)
+        contentView.addSubview(numberOfPhotoLabel)
             
-        } else {
-            contentView.addSubview(albumImage)
-            contentView.addSubview(albumNameLabel)
-            contentView.addSubview(numberOfPhotoLabel)
-                
-            albumImage.translatesAutoresizingMaskIntoConstraints = false
-            albumImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-            albumImage.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-            albumImage.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-            albumImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-                
-            albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
-            albumNameLabel.topAnchor.constraint(equalTo: albumImage.bottomAnchor, constant: Offsets.topOffset6).isActive = true
-            albumNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        albumImage.translatesAutoresizingMaskIntoConstraints = false
+        albumImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        albumImage.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        albumImage.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        albumImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+            
+        albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        albumNameLabel.topAnchor.constraint(equalTo: albumImage.bottomAnchor, constant: Offsets.topOffset6).isActive = true
+        albumNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
 
-            numberOfPhotoLabel.translatesAutoresizingMaskIntoConstraints = false
-            numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: Offsets.topOffset3).isActive = true
-            numberOfPhotoLabel.widthAnchor.constraint(equalTo: albumNameLabel.widthAnchor).isActive = true
-            
-                if model.isHeartIcon {
-                    contentView.addSubview(favoritesIcon)
-                    
-                    favoritesIcon.translatesAutoresizingMaskIntoConstraints = false
-                    favoritesIcon.leftAnchor.constraint(equalTo: contentView.leftAnchor,
-                                                        constant: Offsets.favoritesIconLeftOffset).isActive = true
-                    favoritesIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                          constant: Offsets.favoritesIconBottomOffset).isActive = true
-                    favoritesIcon.widthAnchor.constraint(equalTo: contentView.widthAnchor,
-                                                         multiplier: Sizes.favoritesIconWidthMultiplier0_13).isActive = true
-                    favoritesIcon.heightAnchor.constraint(equalTo: favoritesIcon.widthAnchor).isActive = true
-                }
-            }
+        numberOfPhotoLabel.translatesAutoresizingMaskIntoConstraints = false
+        numberOfPhotoLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: Offsets.topOffset3).isActive = true
+        numberOfPhotoLabel.widthAnchor.constraint(equalTo: albumNameLabel.widthAnchor).isActive = true
+        
+        if model.name == "Избранное" {
+            contentView.addSubview(favoritesIcon)
+                
+            favoritesIcon.translatesAutoresizingMaskIntoConstraints = false
+            favoritesIcon.leftAnchor.constraint(equalTo: contentView.leftAnchor,
+                                                    constant: Offsets.favoritesIconLeftOffset).isActive = true
+            favoritesIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                      constant: Offsets.favoritesIconBottomOffset).isActive = true
+            favoritesIcon.widthAnchor.constraint(equalTo: contentView.widthAnchor,
+                                                     multiplier: Sizes.favoritesIconWidthMultiplier0_13).isActive = true
+            favoritesIcon.heightAnchor.constraint(equalTo: favoritesIcon.widthAnchor).isActive = true
         }
+    }
     
     func configure(with model: AlbumItem) {
         albumImage.image = model.image
         albumNameLabel.text = model.name
         numberOfPhotoLabel.text = model.amountOfMedia
-        setupDisplay(with: model)
+        model.name == "Люди" ? setupPeopleItem(with: model) : setupDefaultAlbumItem(with: model)
     }
 
 }
